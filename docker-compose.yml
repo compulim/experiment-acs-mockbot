@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  # On Windows, run with COMPOSE_CONVERT_WINDOWS_PATHS=1
+
+  chromium:
+    depends_on:
+      - webserver
+    image: selenium/standalone-chrome:90.0
+
+  controller:
+    build:
+      context: ./
+      dockerfile: controller.dockerfile
+    depends_on:
+      - chromium
+    env_file:
+      - .env
+    stop_grace_period: 0s
+
+  webserver:
+    build:
+      context: ./
+      dockerfile: webserver.dockerfile
+    ports:
+      - '5080:80'
+    stop_grace_period: 0s

@@ -35,9 +35,14 @@ import EchoBot from './bot';
 //   appPassword: process.env.MicrosoftAppPassword
 // });
 
+const searchParams = new URLSearchParams(location.search);
+const ACS_ENDPOINT_URL = searchParams.get('url');
+const ACS_KEY = searchParams.get('key');
+const ACS_TOKEN = searchParams.get('token');
+
 const adapter = new ACSBotAdapter({
-  endpointURL: process.env.ACS_ENDPOINT_URL,
-  token: process.env.ACS_TOKEN
+  endpointURL: ACS_ENDPOINT_URL,
+  token: ACS_TOKEN
 });
 
 // Catch-all for errors.

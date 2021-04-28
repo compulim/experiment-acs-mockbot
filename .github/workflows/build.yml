@@ -1,0 +1,17 @@
+name: Build
+
+on:
+- push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        npm install
+        npm run build
+    - run: docker login https://docker.pkg.github.com -u compulim -p ${{ secrets.GITHUB_TOKEN }}
+    - run: docker build -f controller.dockerfile . -t docker.pkg.github.com/compulim/experiment-acs-mockbot/controller:latest
+    - run: docker push docker.pkg.github.com/compulim/experiment-acs-mockbot/controller:latest
+    - run: docker build -f webserver.dockerfile . -t docker.pkg.github.com/compulim/experiment-acs-mockbot/webserver:latest
+    - run: docker push docker.pkg.github.com/compulim/experiment-acs-mockbot/webserver:latest
