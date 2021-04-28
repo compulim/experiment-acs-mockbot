@@ -4,6 +4,7 @@ const { Builder } = require('selenium-webdriver');
 const AbortController = require('abort-controller');
 
 const { readFile } = require('fs').promises;
+const issueToken = require('./issueToken');
 
 const ONE_DAY = 86400000;
 
@@ -60,14 +61,18 @@ const WEB_DRIVER_URL = 'http://chromium:4444/wd/hub/';
 const WEB_SERVER_URL = 'http://webserver/';
 
 async function main() {
-  const searchParams = new URLSearchParams({
-    key: process.env.ACS_KEY || '',
-    token: process.env.ACS_TOKEN || '',
-    url: process.env.ACS_ENDPOINT_URL || ''
-  });
-
   for (;;) {
     console.log('Starting a new Chromium.');
+
+    const { token } = await issueToken(process.env.ACS_IDENTITY, ['chat'], {
+      endpointURL: process.env.ACS_ENDPOINT_URL,
+      key: process.env.ACS_KEY
+    });
+
+    const searchParams = new URLSearchParams({
+      token,
+      url: process.env.ACS_ENDPOINT_URL || ''
+    });
 
     try {
       const abortController = new AbortController();
@@ -84,6 +89,9 @@ async function main() {
           await fetch(new URL(sessionId, WEB_DRIVER_URL), { method: 'DELETE' });
         } catch (err) {}
       };
+
+      process.once('SIGINT', terminate);
+      process.once('SIGTERM', terminate);
 
       try {
         await webDriver.get(new URL(`?${searchParams}`, WEB_SERVER_URL));

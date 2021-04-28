@@ -7,7 +7,9 @@
     "@azure/communication-chat": "1.0.0",
     "abort-controller": "3.0.0",
     "botbuilder-core": "^4.13.0",
+    "dotenv": "8.2.0",
     "jwt-decode": "3.1.2",
+    "node-fetch": "2.6.1",
     "selenium-webdriver": "4.0.0-beta.3"
   },
   "devDependencies": {
@@ -16,8 +18,8 @@
     "@babel/preset-env": "^7.13.15",
     "@babel/preset-typescript": "^7.13.0",
     "concurrently": "^6.0.2",
-    "dotenv": "^8.2.0",
-    "esbuild": "^0.11.15"
+    "esbuild": "^0.11.15",
+    "node-dev": "^6.7.0"
   },
   "scripts": {
     "build": "npm run build:babel && npm run build:esbuild && npm run build:html",
@@ -27,6 +29,7 @@
     "prestart": "npm run build:babel && npm run build:html",
     "start": "concurrently --kill-others \"npm run start:*\"",
     "start:babel": "npm run build:babel -- --skip-initial-build --watch",
+    "start:controller": "node-dev ./src/controller/start",
     "start:esbuild": "npm run build:esbuild -- --watch"
   },
   "author": "William Wong (https://github.com/compulim)",

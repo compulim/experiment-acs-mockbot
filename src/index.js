@@ -37,9 +37,11 @@ import EchoBot from './bot';
 
 const searchParams = new URLSearchParams(location.search);
 const ACS_ENDPOINT_URL = searchParams.get('url');
-const ACS_KEY = searchParams.get('key');
 const ACS_TOKEN = searchParams.get('token');
 
+// TODO: Instead of using token, the bot adapter should accept ACS access key instead.
+//       Currently, the access key requires crypto signature, which differs between browser and Node.js implementation.
+//       We should learn how to use "ms-rest" with the policy provided by "@azure/communication-common" to generate the token.
 const adapter = new ACSBotAdapter({
   endpointURL: ACS_ENDPOINT_URL,
   token: ACS_TOKEN

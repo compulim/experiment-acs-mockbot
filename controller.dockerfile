@@ -7,5 +7,6 @@ FROM node:alpine
 WORKDIR /var/controller/
 ENTRYPOINT ["node", "start.js"]
 
-RUN npm install abort-controller dotenv selenium-webdriver
-ADD start.js /var/controller/
+ADD src/controller/ /var/controller/
+ADD package*.json /var/controller/
+RUN npm i --only=production
