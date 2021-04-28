@@ -23,7 +23,7 @@
   },
   "scripts": {
     "build": "npm run build:babel && npm run build:esbuild && npm run build:html",
-    "build:babel": "babel --extensions .js,.ts --out-dir lib/ src/**/*",
+    "build:babel": "babel --extensions .js,.ts --out-dir lib/ src/",
     "build:esbuild": "esbuild lib/index.js --bundle --outfile=dist/bot.js --sourcemap --target=chrome87",
     "build:html": "cp src/index.html dist/",
     "prestart": "npm run build:babel && npm run build:html",
