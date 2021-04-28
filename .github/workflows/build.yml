@@ -17,4 +17,4 @@ jobs:
       - run: docker push ghcr.io/compulim/experiment-acs-mockbot-controller:latest
       - run: docker build -f webserver.dockerfile . -t ghcr.io/compulim/experiment-acs-mockbot-webserver:latest
       - run: docker push ghcr.io/compulim/experiment-acs-mockbot-webserver:latest
-      - run: curl ${{ secrets.DEPLOY_WEBHOOK_URL }}
+      - run: curl -d -H -X POST ${{ secrets.DEPLOY_WEBHOOK_URL }}
